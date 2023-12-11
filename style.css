@@ -6,3 +6,7 @@ body {
 #appendices h1 {
     font-size: large;
 }
+
+#audio_in, #audio_out{
+    width: 80%;
+}

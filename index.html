@@ -27,17 +27,18 @@
       ADC conncection and the audio jack output in order to capture the correct
       analog voltage behavior centered around a 1.65V bias. This voltage divider
       and series capacitor also acts as a high pass filter with a break
-      frequency at around 160 Hz. Though we can still hear in a frequency range
-      below 160 Hz, it is ultimately a very quiet range for us to hear, and
-      concluded that it is not important to keep those frequencies at unity
-      gain.
+      frequency at around 318 Hz. The filter does not significantly cut out the
+      low frequencies until about 80 Hz (discovered by simply listening). Though
+      we can still hear in a frequency range below 80 Hz, it is ultimately a
+      very quiet range for us to hear, and concluded that it is not important to
+      keep the frequencies below 318 Hz at unity gain.
     </p>
     <p>
       The design for the audio input network was inspired by the "<a
         href="https://ece4760.github.io/Projects/Fall2022/bat66_cys37_rjw252/index.html"
         target="_blank">Audio Spatializer</a>" project by Bianca Tseng, Crystal
       Shi, and Rosie Wildermuth in the Fall 2022 section of ECE 4760. Their
-      implementation included a low pass filter at around 5kHz to eliminate
+      implementation included a low pass filter at around 5 kHz to eliminate
       aliasing effects, but we chose not to implement this filter after finding
       that the there were no significnat audible artifacts when removing that
       low pass filter.
@@ -53,6 +54,21 @@
       audio cable connected to a speaker. Both ends of the audio connector are
       attached to the same DAC output channel in order to ensure mono audio.
     </p>
+    <p>
+      Unlike the input signal, the output to the audio connector does not need
+      to be at a mid-rail bias because the software implementation places the DC
+      bias of the signal in its middle range already. Placing the voltage levels
+      in the software is advantageous because a mid-rail bias in hardware would
+      inherently require filtering due to the need for an RC network.
+    </p>
+    <p>
+      In an attempt to eliminate noise in the sound signal, a low pass filter
+      was implemented around 12.5 kHz (which exactly matches the sampling
+      frequency of the ADC). However, this low pass filter did not seem to
+      eliminate any noise, but instead only contributed to volume attenuation.
+      As a result, this low pass filter at the output was not used in the final
+      design.
+    </p>
     <h2>VGA Display</h2>
     <h2>Control Knobs</h2>
     <h1>Software Design</h1>
@@ -62,6 +78,8 @@
       <h1>Appendix A: Permissions</h1>
       <h1>Appendix B: Code</h1>
       <h1>Appendix C: Schematics</h2>
+      <img src="images/audio_in_schematic.png" id="audio_in">
+      <img src="images/audio_out_schematic.png" id="audio_out">
       <h1>Appendix D: Tasks</h1>
       <h1>Appendix E: References</h1>
     </div>

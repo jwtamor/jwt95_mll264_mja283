@@ -2,18 +2,68 @@
 <html>
   <head>
     <title>DJ 2040</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <h1>Introduction</h1>
     <h1>High Level Design</h1>
-    <h1>Program & Hardware Design</h1>
+    <p>
+
+      <!-- All the audio processing that occurs on the inputted sound is done in the
+      frequency domain in order to be able to manipulate target frequencies.  Thus, a time-frequency transformation needed to be performed on the audio data streamed in from the ADC channel.  Additionally, the  -->
+    </p>
+    <h1>Hardware Design</h1>
+    <h2>Audio Input</h2>
+    <p>
+      In order to receive audio data, sound from a computer is plugged into an
+      audio connector breakout, allowing us to actually receive and use the
+      analog voltages that correspond to the sound waves to be outputted. The
+      voltage from one end of the audio connector (corresponding to either left
+      or right in stereo audio) was used as the input to one of the ADC channels
+      on the RP2040, allowing us to read in the analog voltages of the sound as
+      it is played from a device. Becuase the ADC channel on the RP2040 requires
+      a voltage between 0V and 3.3V, a voltage divider is used to hold the ADC
+      pin at a mid-rail bias, and a series capacitor is placed in between the
+      ADC conncection and the audio jack output in order to capture the correct
+      analog voltage behavior centered around a 1.65V bias. This voltage divider
+      and series capacitor also acts as a high pass filter with a break
+      frequency at around 160 Hz. Though we can still hear in a frequency range
+      below 160 Hz, it is ultimately a very quiet range for us to hear, and
+      concluded that it is not important to keep those frequencies at unity
+      gain.
+    </p>
+    <p>
+      The design for the audio input network was inspired by the "<a
+        href="https://ece4760.github.io/Projects/Fall2022/bat66_cys37_rjw252/index.html"
+        target="_blank">Audio Spatializer</a>" project by Bianca Tseng, Crystal
+      Shi, and Rosie Wildermuth in the Fall 2022 section of ECE 4760. Their
+      implementation included a low pass filter at around 5kHz to eliminate
+      aliasing effects, but we chose not to implement this filter after finding
+      that the there were no significnat audible artifacts when removing that
+      low pass filter.
+    </p>
+    <h2>Audio Output</h2>
+    <p>
+      The final sound output after audio processing is accomplished using a
+      12-bit digital to analog converter that communicates with the RP2040 using
+      SPI. The DAC has the ability to produce audio for two separate audio
+      channels, but because we are only using single-ended audio, only one of
+      these channels is used. An additional audio jack connects to the DAC
+      output in order to capture the analog voltages and transfer them into an
+      audio cable connected to a speaker. Both ends of the audio connector are
+      attached to the same DAC output channel in order to ensure mono audio.
+    </p>
+    <h2>VGA Display</h2>
+    <h2>Control Knobs</h2>
+    <h1>Software Design</h1>
     <h1>Results</h1>
     <h1>Conclusions</h1>
-    <h1>Appendix A</h1>
-    <h1>Appendix B</h1>
-    <h2>Code</h2>
-    <h2>Schematics</h2>
-    <h2>Tasks</h2>
-    <h2>References</h2>
+    <div id="appendices">
+      <h1>Appendix A: Permissions</h1>
+      <h1>Appendix B: Code</h1>
+      <h1>Appendix C: Schematics</h2>
+      <h1>Appendix D: Tasks</h1>
+      <h1>Appendix E: References</h1>
+    </div>
   </body>
 </html>

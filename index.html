@@ -142,6 +142,7 @@
    fr array. Likewise, we use memcpy to copy the contents of the fft_buff_i array into the fi array. We 
    then reset the interrupt_idx back to 0, and using semaphores, we signal to the protothread_fft that the next frame 
    is ready to be processed.
+   </p>
    <p>
    Additionally, in the ISR we begin sending the altered audio frame to the DAC. We do this by setting the 
    variable sound to the value of the interrupt_fft_array at the position of sound_idx. We then increment 
@@ -150,7 +151,9 @@
    outputted and we can move onto the next frame. Lastly, we need to output values to the DAC. We first take 
    the sound variable and multiply it by 2, and then shit it up by 2048 in order to be in the acceptable range
    for the DAC. This value is then masked with DAC_config_chan_A for DAC_data_1 and DAC_config_chan_B for DAC_data_0. 
-   We then transmit the data using SPI. 
+   We then transmit the data using SPI.
+   </p>
+
     <h2>VGA Graphics</h2>
     <h1>Results</h1>
     <h1>Conclusions</h1>

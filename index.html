@@ -129,6 +129,23 @@
     </p>
     <h1>Software Design</h1>
     <h2>Audio Processing</h2>
+    <h3>Protothread FFT</h3>
+    <p>In the protothread protothread_fft, we begin by waiting for the fft_semaphore signal to be sent from
+       the ISR. Once it is, we perform the FFT on the arrays fr and fi. From there, we read both ADC channel 1 
+       and channel 2 and store it in chan_1_reading and chan_2_reading respectively. From there, we then multiply 
+       chan_1_reading by 3.3 which is our reference voltage, divide it by 4096 which is the maximum value for a 12-bit ADC, 
+       we subtract it by 1.1 which is our offset, and we store into the variable s1. We do the same thing for chan_2_reading
+       but we store it in s2. From there, we loop through the fr and fi arrays. For all indices less than 2, they are set 
+       to zero in order to remove the framing artifacts. For all indices less than 100, they were multiplied by s1 and stored back 
+       in the same location of the fr and fi arrays. For all other indices, they were multiplied by s2 and stored back into the same 
+       location in the fr and fi arrays.
+    </p>
+    <p>
+
+      Once this loop has concluded, we then run the inverse FFT on the fr and fi arrays. We wait until the semaphore, load_semaphore, has 
+      been signaled to load the new frame array into the output array using memcpy. 
+      
+    </p>
     <h2>ISR and Protothread Semaphores</h2>
 
    <p>

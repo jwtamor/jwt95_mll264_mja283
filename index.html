@@ -13,6 +13,7 @@
       frequency domain in order to be able to manipulate target frequencies.  Thus, a time-frequency transformation needed to be performed on the audio data streamed in from the ADC channel.  Additionally, the  -->
     </p>
     <h1>Hardware Design</h1>
+
     <h2>Audio Input</h2>
     <p>
       In order to receive audio data, sound from a computer is plugged into an
@@ -43,6 +44,7 @@
       that the there were no significnat audible artifacts when removing that
       low pass filter.
     </p>
+
     <h2>Audio Output</h2>
     <p>
       The final sound output after audio processing is accomplished using a
@@ -69,9 +71,66 @@
       As a result, this low pass filter at the output was not used in the final
       design.
     </p>
+
     <h2>VGA Display</h2>
+
     <h2>Control Knobs</h2>
+    <p>
+      The control knobs are implemented using linear rotary potentiometers.
+      Because we wanted the rotating of the potentiometers to have a linear
+      relationship with the control scalars for the sound output, the peripheral
+      circuitry invovled vor connecting the potentiometers is done in order to
+      have a linear relationship between voltage at the ADC input channel and
+      position of the pontentiometer's position.
+    </p>
+    <p>
+      Figure X displays the schematic used for setting up the potentiometer
+      control knobs. The non-inverting amplifier circuit creates a gain of A = 1
+      + R<sub>f</sub> / R<sub>i</sub>. Thus, with a linear rotary potentiometer
+      as the amplifier's feedback resistor (where the resistance is linear with
+      respect to potentiometer position), the output voltage of the amplifier
+      will also be linear with respect to potentiometer position. The voltage
+      seen by the ADC for each control knob will then be use to process the
+      audio that the RP2040 receives, which will be discussed further in the
+      Software Design section. Additionally, with an input voltage of 1V to the
+      amplifier, the gain is a measure of the voltage seen by the ADC channel:
+      (1 + R<sub>f</sub> / R<sub>i</sub>) Volts.
+    </p>
+    <p>
+      The maximum gain for this amplifier was chosen such that the op-amp used
+      and the RP2040's ADC channel could both handle the dynamic range that the
+      amplilfier will provide. Firstly, the LM358 op-amp used for this circuit
+      is not a rail-to-rail amplifier, and thus can only provide a voltage up to
+      1.42V lower than its positive supply voltage, and 100mV greater than its
+      negative supply voltage. With a negative supply voltage at ground, this
+      means that the output voltage should not ever go below 100mV.
+      Additionally, the requirements of the RP2040 ADC channel indicate that the
+      voltage should not exceed 3.3V, since the voltage reference for the ADC
+      channels will cause the channel to saturate at 3.3V, and any readings
+      above that voltage will not be able to be read. As a result, the maximum
+      output voltage of the amplifier was held to be 3V, which gives a dynamic
+      range of 1 to 3 volts that the amplifier output can range between. This 3V
+      maximum is suitable for the op-amp specifciations because it is well below
+      the 1.42V below the supply voltage (using a 5V supply voltage from the
+      RP2040). In order to acheive this dynamic range, we consider that the
+      maximum resistance of the potentiometer is 10kΩ, and the minium resistance
+      is 0Ω. Using the voltage equation, we can already see that when the
+      resistance of the potentiometer is at its minimum, the output votlage will
+      be 1V. As a result, the resistance R<sub>i</sub> must be set such that the
+      maximum resistance of the potentiometer matches the maximum voltage we
+      want to be outputted, which is 3V. We can find this resistance by
+      rearranging the voltage equation:
+    </p>
+    <p>
+      1 + R<sub>f</sub> / R<sub>i</sub> = 3
+    </p>
+    <p>
+      (1 + R<sub>f</sub>) / 3 = R<sub>i</sub>
+    </p>
     <h1>Software Design</h1>
+    <h2>Audio Processing</h2>
+    <h2>ISR and Protothread Semaphores</h2>
+    <h2>VGA Graphics</h2>
     <h1>Results</h1>
     <h1>Conclusions</h1>
     <div id="appendices">

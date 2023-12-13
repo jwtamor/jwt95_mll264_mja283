@@ -166,7 +166,7 @@
    sound_idx and check if it is greater than or equal to the total number of samples taken for the FFT. If 
    it is, sound_idx is reset back to 0 and we signal with the load_sempahore that the prior frame has been 
    outputted and we can move onto the next frame. Lastly, we need to output values to the DAC. We first take 
-   the sound variable and multiply it by 2, and then shit it up by 2048 in order to be in the acceptable range
+   the sound variable and multiply it by 2, and then shift it up by 2048 in order to be in the acceptable range
    for the DAC. This value is then masked with DAC_config_chan_A for DAC_data_1 and DAC_config_chan_B for DAC_data_0. 
    We then transmit the data using SPI.
    </p>

@@ -6,6 +6,20 @@
   </head>
   <body>
     <h1>Introduction</h1>
+    <p>
+    The DJ 2040 allows users to play a song through an audio jack and tune both the higher and lower frequencies to alter the sound 
+    that is outputted through another audio jack.      
+    </p>
+    <p>
+
+      This project was inspired by recording studios and the ability to manipulate audio inputs. We process the inputted audio through the 
+      ADC, apply an FFT to it, apply a filter to the FFT, and then compute the inverse FFT of the filtered frequency-domain signal. The 
+      results of the inverse FFT is written to the DAC and is outputted through a speaker. To filter the signal, two potentiometers are used.
+      The first potentiometer tunes the lower frequencies and the second potentiometer tunes the higher frequency. This gives the user the 
+      control to alter the sound of a song that mimics a DJ board.
+      
+    </p>
+    
     <h1>High Level Design</h1>
     <p>
 
